@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Designed to Heal — Coming Soon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #F7F3EE;
+    --warm-white: #FDFAF6;
+    --forest: #2C4A3E;
+    --sage: #7A9E8C;
+    --copper: #B5623A;
+    --dark: #1A2820;
+    --text: #2D2D2D;
+    --muted: #6B7568;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Jost', sans-serif; background: var(--warm-white); color: var(--text); overflow-x: hidden; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--forest);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 30% 50%, rgba(122,158,140,0.15) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 80% 20%, rgba(181,98,58,0.1) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px 80px 80px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(3.5rem, 6vw, 6rem);
+    line-height: 0.95;
+    color: var(--cream);
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.4s forwards;
+  }
+  h1 em { font-style: italic; color: var(--sage); }
+
+  .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(1rem, 1.8vw, 1.35rem);
+    color: rgba(247,243,238,0.65);
+    line-height: 1.5;
+    margin: 28px 0 44px;
+    max-width: 480px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.6s forwards;
+  }
+
+  .hero-cta {
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.8s forwards;
+  }
+  .hero-cta .cta-label {
+    font-size: 0.8rem;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    color: rgba(247,243,238,0.45);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  /* ── EMAIL FORM ── */
+  .email-form { display: flex; max-width: 460px; }
+  .email-form input {
+    flex: 1;
+    padding: 16px 20px;
+    background: rgba(247,243,238,0.08);
+    border: 1px solid rgba(247,243,238,0.2);
+    border-right: none;
+    color: var(--cream);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 300;
+    outline: none;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .email-form input::placeholder { color: rgba(247,243,238,0.35); }
+  .email-form input:focus { background: rgba(247,243,238,0.12); border-color: rgba(122,158,140,0.6); }
+  .email-form button {
+    padding: 16px 28px;
+    background: var(--copper);
+    border: 1px solid var(--copper);
+    color: white;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .email-form button:hover { background: #c96e45; }
+
+  .success-msg {
+    display: none;
+    padding: 16px 20px;
+    background: rgba(122,158,140,0.15);
+    border: 1px solid rgba(122,158,140,0.4);
+    color: var(--sage);
+    font-size: 0.85rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    max-width: 460px;
+  }
+
+  /* ── HERO VISUAL ── */
+  .hero-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 80px 80px 40px;
+    position: relative;
+    z-index: 2;
+  }
+  .book-mockup {
+    width: 280px;
+    height: 380px;
+    background: linear-gradient(135deg, #1A3528 0%, #2C4A3E 100%);
+    box-shadow: 40px 40px 80px rgba(0,0,0,0.5), -4px -4px 20px rgba(122,158,140,0.1), inset 6px 0 12px rgba(0,0,0,0.3);
+    position: relative;
+    transform: perspective(800px) rotateY(-8deg) rotateX(2deg);
+    opacity: 0;
+    animation: bookReveal 1s ease 1s forwards;
+  }
+  .book-mockup::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 6px;
+    background: linear-gradient(to right, rgba(0,0,0,0.6), rgba(122,158,140,0.2));
+  }
+  .book-mockup::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(122,158,140,0.05) 0%, transparent 60%, rgba(181,98,58,0.05) 100%);
+  }
+  .book-inner {
+    padding: 36px 30px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+  }
+  .book-title { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 300; line-height: 1; color: var(--cream); }
+  .book-title em { display: block; font-style: italic; color: var(--sage); }
+  .book-line { width: 40px; height: 1px; background: var(--copper); margin: 16px 0; }
+  .book-authors { font-family: 'Jost', sans-serif; font-size: 0.7rem; font-weight: 300; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(247,243,238,0.5); }
+  .book-tagline { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.9rem; color: rgba(247,243,238,0.4); line-height: 1.4; }
+
+  /* ── PROBLEM ── */
+  .section-problem {
+    background: var(--cream);
+    padding: 100px 80px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .section-label {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--copper);
+    padding-top: 6px;
+  }
+  .section-content h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    color: var(--forest);
+    line-height: 1.15;
+    margin-bottom: 28px;
+  }
+  .section-content p {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 20px;
+    max-width: 640px;
+  }
+  .insight-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px; }
+  .insight-card { padding: 28px; border: 1px solid rgba(44,74,62,0.12); background: white; }
+  .insight-number { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300; color: var(--sage); line-height: 1; margin-bottom: 8px; }
+  .insight-card p { font-size: 0.85rem; line-height: 1.6; color: var(--muted); margin: 0; }
+
+  /* ── AUTHORS ── */
+  .section-authors { background: var(--dark); padding: 100px 80px; }
+  .authors-header { display: flex; align-items: baseline; gap: 40px; margin-bottom: 60px; }
+  .authors-header h2 { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(2rem, 3.5vw, 3rem); color: var(--cream); }
+  .authors-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+  .author-card { display: grid; grid-template-columns: 160px 1fr; gap: 32px; align-items: start; }
+  .author-photo { width: 160px; height: 190px; object-fit: cover; object-position: center top; display: block; }
+  .author-info h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: var(--cream); margin-bottom: 4px; }
+  .author-credentials { font-family: 'Jost', sans-serif; font-size: 0.7rem; font-weight: 300; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage); margin-bottom: 16px; }
+  .author-info p { font-family: 'Jost', sans-serif; font-weight: 300; font-size: 0.9rem; line-height: 1.75; color: rgba(247,243,238,0.6); }
+
+  /* ── FRAMEWORK ── */
+  .section-framework { background: var(--warm-white); padding: 100px 80px; }
+  .section-framework-inner { display: grid; grid-template-columns: 1fr 2fr; gap: 80px; align-items: start; }
+  .framework-sticky { position: sticky; top: 40px; }
+  .framework-sticky h2 { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(2rem, 3vw, 2.5rem); color: var(--forest); line-height: 1.2; margin-bottom: 20px; }
+  .framework-sticky p { font-family: 'Jost', sans-serif; font-weight: 300; font-size: 0.9rem; line-height: 1.8; color: var(--muted); }
+  .parts-list { display: flex; flex-direction: column; }
+  .part-item { padding: 28px 0; border-bottom: 1px solid rgba(44,74,62,0.1); display: grid; grid-template-columns: 60px 1fr; gap: 24px; align-items: start; }
+  .part-number { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; color: rgba(44,74,62,0.15); line-height: 1; }
+  .part-item h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400; color: var(--forest); margin-bottom: 8px; }
+  .part-item p { font-family: 'Jost', sans-serif; font-weight: 300; font-size: 0.85rem; line-height: 1.7; color: var(--muted); }
+
+  /* ── BOTTOM CTA ── */
+  .section-cta {
+    background: var(--forest);
+    padding: 100px 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .section-cta::before {
+    content: 'DESIGNED TO HEAL';
+    position: absolute;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18vw;
+    font-weight: 300;
+    color: rgba(255,255,255,0.02);
+    white-space: nowrap;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .section-cta h2 { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(2.5rem, 5vw, 4.5rem); color: var(--cream); line-height: 1.1; margin-bottom: 20px; position: relative; z-index: 1; }
+  .section-cta h2 em { font-style: italic; color: var(--sage); }
+  .section-cta > p { font-family: 'Jost', sans-serif; font-weight: 300; font-size: 1rem; color: rgba(247,243,238,0.55); margin-bottom: 48px; position: relative; z-index: 1; }
+  .cta-form-wrap { display: flex; justify-content: center; position: relative; z-index: 1; }
+  .cta-form-wrap .email-form { width: 100%; max-width: 500px; }
+  .cta-form-wrap .success-msg { margin: 0 auto; }
+
+  /* ── FOOTER ── */
+  footer { background: var(--dark); padding: 40px 80px; display: flex; justify-content: space-between; align-items: center; }
+  footer p { font-family: 'Jost', sans-serif; font-weight: 300; font-size: 0.75rem; color: rgba(247,243,238,0.3); letter-spacing: 0.05em; }
+  footer a { color: var(--sage); text-decoration: none; font-size: 0.75rem; font-family: 'Jost', sans-serif; font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes bookReveal { from { opacity: 0; transform: perspective(800px) rotateY(-8deg) rotateX(2deg) translateY(30px); } to { opacity: 1; transform: perspective(800px) rotateY(-8deg) rotateX(2deg) translateY(0); } }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    .hero-text { padding: 60px 32px; }
+    .section-problem { grid-template-columns: 1fr; gap: 40px; padding: 60px 32px; }
+    .section-authors { padding: 60px 32px; }
+    .authors-grid { grid-template-columns: 1fr; }
+    .author-card { grid-template-columns: 120px 1fr; gap: 20px; }
+    .author-photo { width: 120px; height: 142px; }
+    .insight-grid { grid-template-columns: 1fr; }
+    .section-framework { padding: 60px 32px; }
+    .section-framework-inner { grid-template-columns: 1fr; gap: 40px; }
+    .section-cta { padding: 60px 32px; }
+    footer { flex-direction: column; gap: 12px; text-align: center; padding: 40px 32px; }
+    .email-form { flex-direction: column; }
+    .email-form input { border-right: 1px solid rgba(247,243,238,0.2); border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="eyebrow">Coming Soon &middot; A New Book</div>
+    <h1>Designed<br>to <em>Heal</em></h1>
+    <p class="subtitle">A Framework for Human Health in an Age of Chronic Illness &mdash; by Andrew Petersen, DO &amp; Kirsten Mast, JD</p>
+    <div class="hero-cta">
+      <p class="cta-label">Be the first to know when it launches</p>
+      <div class="email-form" id="heroForm">
+        <input type="email" id="heroEmail" placeholder="your@email.com" />
+        <button onclick="subscribe('heroEmail','heroForm','heroSuccess')">Notify Me</button>
+      </div>
+      <div class="success-msg" id="heroSuccess">You&rsquo;re on the list. We&rsquo;ll be in touch.</div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="book-mockup">
+      <div class="book-inner">
+        <div>
+          <div class="book-title">Designed<br>to <em>Heal</em></div>
+          <div class="book-line"></div>
+          <div class="book-authors">Petersen &middot; Mast</div>
+        </div>
+        <div class="book-tagline">A Framework for Human Health in an Age of Chronic Illness</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="section-problem">
+  <div class="section-label">The Problem</div>
+  <div class="section-content">
+    <h2>Why doing everything right still leaves millions stuck</h2>
+    <p>More than half of American adults live with chronic disease &mdash; yet millions remain trapped between &ldquo;normal&rdquo; lab results and treatments their bodies cannot tolerate. Diets, supplements, and lifestyle programs bring short-term relief followed by relapse.</p>
+    <p>What&rsquo;s missing isn&rsquo;t motivation or information. It&rsquo;s a usable framework for understanding <em>readiness and sequencing</em> &mdash; knowing when the body is capable of healing, and in what order to support it.</p>
+    <div class="insight-grid">
+      <div class="insight-card"><div class="insight-number">60%</div><p>of U.S. adults live with at least one chronic condition &mdash; many cycling through specialists without sustained improvement</p></div>
+      <div class="insight-card"><div class="insight-number">40%</div><p>manage multiple conditions simultaneously, yet most medical frameworks treat each in isolation</p></div>
+      <div class="insight-card"><div class="insight-number">$5T+</div><p>in annual U.S. healthcare spending, the majority driven by chronic disease with no clear resolution</p></div>
+      <div class="insight-card"><div class="insight-number">30</div><p>clinics and 200,000+ patients inform the clinical framework behind <em>Designed to Heal</em></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTHORS -->
+<section class="section-authors">
+  <div class="authors-header">
+    <span class="section-label" style="color:var(--sage)">The Authors</span>
+    <h2 style="color:var(--cream)">Bridging clinical practice and systems thinking</h2>
+  </div>
+  <div class="authors-grid">
+    <div class="author-card">
+      <img class="author-photo" src="images/andrew.webp" alt="Andrew Petersen, DO">
+      <div class="author-info">
+        <h3>Andrew Petersen, DO</h3>
+        <div class="author-credentials">Doctor of Osteopathic Medicine</div>
+        <p>Founder of a 30-clinic, 200,000-patient network, Andrew has spent his career translating the complexity of systems medicine into clinical approaches that produce durable results &mdash; even for patients who have exhausted conventional options.</p>
+      </div>
+    </div>
+    <div class="author-card">
+      <img class="author-photo" src="images/kirsten.jpg" alt="Kirsten Mast, JD">
+      <div class="author-info">
+        <h3>Kirsten Mast, JD</h3>
+        <div class="author-credentials">Author &middot; Health Educator</div>
+        <p>With deep expertise in functional medicine communication and patient education, Kirsten brings clinical rigor to accessible prose &mdash; making complex biological systems understandable for readers at every level of health literacy.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FRAMEWORK -->
+<section class="section-framework">
+  <div class="section-framework-inner">
+    <div class="framework-sticky">
+      <span class="section-label">Inside the Book</span>
+      <h2 style="margin-top:20px">Five parts. One coherent model.</h2>
+      <p>Rather than promoting a single protocol, <em>Designed to Heal</em> gives readers a mental model for understanding readiness, sequencing, and resilience.</p>
+    </div>
+    <div class="parts-list">
+      <div class="part-item"><div class="part-number">I</div><div><h3>The Framework: How the Body Actually Works</h3><p>Introduces the core model &mdash; aging as balance, DNA as blueprint, nutrition as substrate, and constraints as capacity drains. Establishes the &ldquo;body as a city&rdquo; metaphor that runs throughout the book.</p></div></div>
+      <div class="part-item"><div class="part-number">II</div><div><h3>The Terrain and the Forces That Shape It</h3><p>Explains why healing stalls: gut health, microbial imbalance, toxin burden, metabolic instability, and the chronic signal mismatch of modern stress and environment.</p></div></div>
+      <div class="part-item"><div class="part-number">III</div><div><h3>Sequencing: Why Order Determines Outcomes</h3><p>Introduces readiness and tolerance as clinical concepts. Explains why capacity limits recovery, why overload causes setbacks, and when to pause, support, or advance.</p></div></div>
+      <div class="part-item"><div class="part-number">IV</div><div><h3>Applying the Framework</h3><p>Puts principles into practice across foundation, gut health, detoxification, metabolism, hormones, and nervous system resilience.</p></div></div>
+      <div class="part-item"><div class="part-number">V</div><div><h3>Stewardship and Sustainability</h3><p>Addresses the long-term reality of chronic illness &mdash; relapse, plateaus, access constraints, and health as ongoing stewardship rather than a one-time optimization.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BOTTOM CTA -->
+<section class="section-cta">
+  <h2>Healing is possible.<br><em>Get the framework.</em></h2>
+  <p>Join the list for launch updates, early access, and exclusive content from Andrew and Kirsten.</p>
+  <div class="cta-form-wrap">
+    <div class="email-form" id="ctaForm">
+      <input type="email" id="ctaEmail" placeholder="your@email.com" />
+      <button onclick="subscribe('ctaEmail','ctaForm','ctaSuccess')">Join the List</button>
+    </div>
+    <div class="success-msg" id="ctaSuccess">You&rsquo;re on the list. We&rsquo;ll be in touch.</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2025 Designed to Heal &middot; All rights reserved</p>
+  <a href="https://designedtoheal.com">DesignedtoHeal.com</a>
+</footer>
+
+<script>
+// INSTRUCTIONS: When you have your new Google Form ready, follow these steps:
+// 1. Open your live Google Form in a browser
+// 2. View Page Source (Ctrl+U / Cmd+U)
+// 3. Search for "entry." — find the number next to your email field
+// 4. Replace REPLACE_WITH_YOUR_ENTRY_ID below with that number (e.g. entry.123456789)
+
+var FORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSfL7i--ztk1SJb5AxB9Ws90u57zuvD_hO3YADGTth0bbE9aBQ/formResponse';
+var EMAIL_FIELD = 'entry.677220004';
+
+function subscribe(inputId, formId, successId) {
+  var email = document.getElementById(inputId).value.trim();
+  if (!email || email.indexOf('@') < 0) {
+    document.getElementById(inputId).style.borderColor = 'rgba(181,98,58,0.6)';
+    return;
+  }
+
+  // Send to Google Form silently in background
+  var url = FORM_ACTION + '?' + EMAIL_FIELD + '=' + encodeURIComponent(email);
+  fetch(url, { method: 'GET', mode: 'no-cors' });
+
+  // Show success immediately (no-cors means we can't read the response, but it works)
+  document.getElementById(formId).style.display = 'none';
+  document.getElementById(successId).style.display = 'block';
+}
+
+document.querySelectorAll('input[type="email"]').forEach(function(input) {
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { var btn = input.nextElementSibling; if (btn) btn.click(); }
+  });
+});
+</script>
+
+</body>
+</html>
